@@ -20,7 +20,7 @@
                         </div>
                         <input class="btn btn-light delete-btn" type="submit" value="Appliquer">
                         <div class="col text-right">
-                            <a href="{{ route('admin.news.create')  }}" class="btn btn-success ajouter-btn" ><i class="fas fa-plus-square"></i>Ajouter</a>
+                            <a href="#" class="btn btn-success ajouter-btn" ><i class="fas fa-plus-square"></i>Ajouter</a>
                         </div>
                     </div>
                 </div>

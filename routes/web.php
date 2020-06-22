@@ -24,3 +24,15 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 
+Route::middleware('auth')->group(function () {
+
+
+    Route::get('gest', 'DashboardController@index')->name('dashboard');
+    Route::get('gest/news', 'NewsController@index')->name('news');
+    Route::get('gest/users', 'UserController@index')->name('users');
+    Route::get('gest/settings', 'SettingsController@index')->name('settings');
+
+
+
+
+});

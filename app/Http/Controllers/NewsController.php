@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Game;
 use Illuminate\Http\Request;
 use App\Actualite;
 
@@ -14,6 +13,7 @@ class NewsController extends Controller
         //get news
         $news = Actualite::all();
 
-        return view('admin.news.index', compact('news'));
+        return view('gest.news.index', compact('news'));
     }
 }
+

@@ -84,23 +84,23 @@
                 <div id="sidebar-menu">
                     <ul>
                         <li>
-                            <a href="{{ route('admin.dashboard') }}" class="waves-effect">
+                            <a href="{{ route('dashboard') }}" class="waves-effect">
                                 <i class="fas fa-home"></i>
                                 <span> Accueil </span>
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('admin.news.index') }}" class="waves-effect"><i class="fas fa-newspaper"></i>
+                            <a href="{{ route('news') }}" class="waves-effect"><i class="fas fa-newspaper"></i>
                                 <span> Actualités </span>
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('admin.users.index') }}" class="waves-effect"><i class="fas fa-user-friends"></i>
+                            <a href="{{ route('users') }}" class="waves-effect"><i class="fas fa-user-friends"></i>
                                 <span> Utilisateurs </span>
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('admin.settings.index') }}" class="waves-effect"><i class="fas fa-cog"></i>
+                            <a href="{{ route('settings') }}" class="waves-effect"><i class="fas fa-cog"></i>
                                 <span> Parametres </span>
                             </a>
                         </li>

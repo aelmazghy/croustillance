@@ -3,6 +3,6 @@
 
 @section('content')
 
-    home
+    hi; moi cest l'admin
 
     @endsection
