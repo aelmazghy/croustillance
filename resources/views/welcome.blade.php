@@ -17,7 +17,7 @@
     <strong>Désolé! pour visiter le site du traiteur Croustillance, il faut que votre navigateur accepte Javascript.</strong>
 </noscript>
 <div id="app"></div>
-
+je suis la page d'accueil
 <!-- built files will be auto injected -->
 </body>
 </html>

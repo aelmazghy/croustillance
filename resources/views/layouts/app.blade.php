@@ -12,16 +12,11 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <link rel="stylesheet" href="/assets/admin/css/demonew.css"/>
-    <link rel="stylesheet" href="/assets/admin/css/style.css"/>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css"/>
+    <link rel="stylesheet" href="{{ asset('assets/admin/css/demonew.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('assets/admin/css/style.css') }}"/>
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.43/css/bootstrap-datetimepicker.min.css"/>
 
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
-    <script type="text/javascript" src="/assets/admin/js/table.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment-with-locales.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.43/js/bootstrap-datetimepicker.min.js"></script>
     <script src="https://unpkg.com/vuelidate@0.7.5/dist/vuelidate.min.js"></script>
@@ -90,8 +85,8 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('news') }}" class="waves-effect"><i class="fas fa-newspaper"></i>
-                                <span> Actualités </span>
+                            <a href="{{ route('articles') }}" class="waves-effect"><i class="fas fa-newspaper"></i>
+                                <span> Articles </span>
                             </a>
                         </li>
                         <li>
