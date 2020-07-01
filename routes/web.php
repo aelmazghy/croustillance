@@ -26,11 +26,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::middleware('auth')->group(function () {
 
-
     Route::get('gest', 'DashboardController@index')->name('dashboard');
     Route::get('gest/articles', 'ArticleController@index')->name('articles');
-    Route::get('gest/articles/create', 'ArticleController@create')->name('create');
-    Route::post('gest/articles', 'ArticleController@store')->name('store');
+    Route::get('gest/articles/create', 'ArticleController@create')->name('createArticle');
+    Route::post('gest/articles/add-article', 'ArticleController@store')->name('addArticle');
     Route::get('gest/users', 'UserController@index')->name('users');
     Route::get('gest/settings', 'SettingsController@index')->name('settings');
 

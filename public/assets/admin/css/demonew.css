@@ -4309,7 +4309,6 @@ button#news-datepicker {
     text-align: center;
 }
 .action-btn {
-    line-height: 2.9;
     margin-right: 10px;
 }
 .page-all-news-s{
@@ -4338,4 +4337,7 @@ button#news-datepicker {
 }
 .custom-file-input.is-invalid~.custom-file-label, .was-validated .custom-file-input:invalid~.custom-file-label, .form-control.is-invalid, .was-validated .form-control:invalid {
     border: 1px solid rgba(232, 34, 34, 0.41)!important;
+}
+.card-box .media-img img{
+    height: 300px;
 }

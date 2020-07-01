@@ -12,11 +12,12 @@
 
     <div id="demonews">
         <div class="col-xs-12 col-lg-6 add-news float-left">
-            <form action="/gest/articles" enctype='multipart/form-data' method="POST">
+            <form action="/gest/articles/add-article" enctype='multipart/form-data' method="POST">
                 @endverbatim
                 @csrf
                 @verbatim
                 <div class="card-box">
+                    <input name="urlLink" type="hidden" :value="urlLink">
                     <div class="form-group">
                         <label for="new-Titre">Titre</label>
                         <b-form-input type="text" class="form-control"
@@ -89,18 +90,17 @@
                 <div class="card-box">
                     <div class="form-group">
                         <label for="new-typeLink">Type du lien</label>
-                        <select class="form-control" id="new-typeLink" v-model="typeLinkSelected">
+                        <select class="form-control" id="new-typeLink" v-model="typeLinkSelected" name="urlType">
                             <option
-                                :name="typelink.name"
                                 v-for="typelink in typeLinks"
-                                :value="typelink"
+                                :value="typelink.name"
                                 :state="typeLinkSelectedState"
-                                :key="typelink.id">
+                                :key="typelink.name">
                                 {{ typelink.name }}
                             </option>
                         </select>
                     </div>
-                    <div class="hasLink" v-if="typeLinkSelected.name != 'Aucun'">
+                    <div class="hasLink" v-show="typeLinkSelected != 'Aucun'">
                         <div class="form-group">
                             <label for="new-textLink">Texte du lien</label>
 
@@ -110,7 +110,7 @@
                                           id="new-textLink"
                                           placeholder="Ex: Découvrir"
                                           v-model="urltext"
-                                          :state="invalidtext"
+                                          :state="textlinkselected"
                                           name="urltext"
                                           aria-describedby="input-live-help input-live-feedback"
                                           trim>
@@ -120,14 +120,14 @@
                             </b-form-invalid-feedback>
                         </div>
                         <div class="form-group">
-                            <div class="haspdf" v-if="typeLinkSelected.name === 'PDF'">
+                            <div class="haspdf" v-show="typeLinkSelected === 'PDF'">
                                 <label for="new-pdf">Fichier PDF</label>
 
                                 <b-form-file show-size label="Fichier PDF" prepend-icon="mdi-file-pdf"
                                              accept=".pdf"
                                              v-model="checkfile"
                                              id="new-pdf"
-                                             name=""
+                                             name="pdf"
                                              :state="Boolean(checkfile)"
                                              placeholder="Choisir un PDF..."
                                              drop-placeholder="Glissez un PDF..."
@@ -136,17 +136,17 @@
                                     PDF invalide
                                 </b-form-invalid-feedback>
                             </div>
-                            <div class="has-url-link" v-if="typeLinkSelected.name === 'Interne' || typeLinkSelected.name === 'Externe'">
+                            <div class="has-url-link" v-if="typeLinkSelected === 'Interne' || typeLinkSelected === 'Externe'">
                                 <label for="new-urlLink">URL</label>
 
-                                <b-form-input v-if="typeLinkSelected.name === 'Externe' || typeLinkSelected.name === 'PDF'"
+                                <b-form-input v-if="typeLinkSelected === 'Externe'"
                                               type="text"
                                               class="form-control"
                                               id="new-urlLink"
                                               v-model="urlLink"
                                               :state="typeLinkSelectedState"
                                               placeholder="http://croustillance.com/decouvrir"
-                                              name="urlLink"
+                                              name="externe"
                                               aria-describedby="input-live-help input-live-feedback"
                                               trim>
 
@@ -156,9 +156,8 @@
                                     Lien invalide
                                 </b-form-invalid-feedback>
 
-                                <select v-if="typeLinkSelected.name === 'Interne'" class="form-control" id="new-urlLink" v-model=" internalLinkSelected">
+                                <select v-if="typeLinkSelected === 'Interne'" class="form-control" id="new-urlLink" v-model="urlLink" name="interne">
                                     <option
-                                        name="urlLink"
                                         v-for="internalLink in internalLinks"
                                         :state="typeLinkSelectedState"
                                         :value="internalLink.path"
@@ -172,7 +171,7 @@
                     </div><!-- /.card-box -->
                 </div>
                 <div class="text-center">
-                    <button :disabled="!titleState || !descriptionState || !Boolean(imag) || !typeLinkSelectedState" type="submit" class="btn btn-primary">Ajouter</button>
+                    <button :disabled="!titleState || !descriptionState || !Boolean(imag) || !typeLinkSelectedState || !textlinkselected" type="submit" class="btn btn-primary">Ajouter</button>
                 </div>
             </form>
         </div>
@@ -197,10 +196,8 @@
 
                                     </div>
                                     <div class="media-body">
-                                        <a href="#">
                                             <h2 class="sr-up-td1">{{ formatDate(datenew) }}</h2>
                                             <h2 class="sr-up-td2 display-6 mt-3 mb-3">{{ title }}</h2>
-                                        </a>
                                         <div class="desc">
                                             <p class="pSpacer" style="background-color:rgba(218, 218, 218, 0.72);color: #fff;border-radius: 5px;">
                                                 {{ description }}
@@ -209,14 +206,14 @@
                                     </div>
 
 
-                                    <div class="media-footer sr-up-td4" v-if="typeLinkSelected.name != 'Aucun'">
+                                    <div class="media-footer sr-up-td4" v-if="typeLinkSelected != 'Aucun'">
                                         <div class="btns-action sr-up-td3 text-primary" >
                                             <a class="btn btn-normal btn-white spaceTop">
                                                 @endverbatim
-                                                <span class="icon" v-if="typeLinkSelected.name == 'PDF'"><img src="{{ asset('assets/img/pdf-icone.svg') }}" width="35px"></span>
+                                                <span class="icon" v-if="typeLinkSelected == 'PDF'"><img src="{{ asset('assets/img/pdf-icone.svg') }}" width="35px"></span>
                                                 @verbatim
                                                 <span class="text">{{urltext}}</span>
-                                                <span class="icon" v-if="typeLinkSelected.name === 'Interne' || typeLinkSelected.name === 'Externe'"><span class="arrow-right"></span></span>
+                                                <span class="icon" v-if="typeLinkSelected === 'Interne' || typeLinkSelected === 'Externe'"><span class="arrow-right"></span></span>
                                             </a>
                                         </div>
                                     </div>
@@ -252,12 +249,12 @@
 
 
                 typeLinks: [
-                    {name: 'Aucun', id: 1},
-                    {name: 'Interne', id: 2},
-                    {name: 'Externe', id: 3},
-                    {name: 'PDF', id: 4}
+                    {name: 'Aucun'},
+                    {name: 'Interne'},
+                    {name: 'Externe'},
+                    {name: 'PDF'}
                 ],
-                typeLinkSelected: 1,
+                typeLinkSelected: 'Aucun',
 
                 internalLinks: [
                     { path: '/' },
@@ -280,13 +277,13 @@
                     { path: '/plateaux-repas-entreprise' }
 
                 ],
-                internalLinkSelected: '',
+                internalLinkSelected: '/',
 
 
             },
             created: function() {
-                this.typeLinkSelected = this.typeLinks.find(i => i.id === this.typeLinkSelected);
-                this.internalLinkSelected = this.internalLinks.find(i => i.path === this.internalLinkSelected);
+                this.typeLinkSelected = 'Aucun';
+                this.internalLinkSelected = '/';
                 this.datenew = moment(Date.now()).format('YYYY-MM-DD');
 
 
@@ -308,47 +305,42 @@
                 }
             }, // end methods
             computed: {
-
                 titleState() {
                     return this.title.length > 3 ? true : false
                 },
                 descriptionState() {
-                    return this.description.length > 3 ? true : false
+                    return this.description.length > 130 ? true : false
                 },
-                invalidtext() {
-                    return this.urltext.length > 3 ? true : false
+                textlinkselected() {
+                    return this.urltext !== null && this.urltext ? true : false
                 },
                 typeLinkSelectedState(){
-
-
-                    switch (this.typeLinkSelected.id) {
-                        case 1:
+                    switch (this.typeLinkSelected) {
+                        case 'Aucun':
                             return true
                             break;
-                        case 2:
-                            if(this.urltext !== null && this.urltext && this.internalLinkSelected !== '' ){
+                        case 'Interne':
+                            if(this.internalLinkSelected !== '' ){
                                 return true
                             }else{
                                 return false
                             }
                             break;
-                        case 3:
-                            if(this.urltext !== null && this.urltext && this.urlLink !== null && this.urlLink && this.urlLink.substring(0, 4) == 'http' ){
+                        case 'Externe':
+                            if(this.urlLink !== null && this.urlLink && this.urlLink.substring(0, 4) == 'http' ){
                                 return true
                             }else{
                                 return false
                             }
                             break;
-                        case 4:
-                            if(this.urltext !== null && this.urltext && this.checkfile !== null && this.checkfile){
+                        case 'PDF':
+                            if(this.checkfile !== null && this.checkfile){
                                 return true
                             }else{
                                 return false
                             }
                             break;
                     }
-
-
            },
 
 

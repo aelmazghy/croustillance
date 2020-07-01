@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
+            <div class="card-box">
 
                 <div class="card-header"><span><img src=" {{ asset('assets/img/logo-croustillance.svg') }} " style=" width: 100%; height: 300px; "></span>
                     {{ __('Login') }}</div>
@@ -61,7 +61,7 @@
                                 </button>
 
                                 @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
+                                    <a class="btn btn-secondary" href="{{ route('password.request') }}">
                                         {{ __('Forgot Your Password?') }}
                                     </a>
                                 @endif

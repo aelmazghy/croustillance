@@ -1,11 +1,21 @@
 <?php
 
+
 namespace App\Http\Controllers;
-use App\Article;
 use Illuminate\Http\Request;
+use App\Article;
+use Illuminate\Support\Str;
+use File;
 
 class ArticleController extends Controller
 {
+
+    public function __construct()
+    {
+    $this->middleware('auth');
+
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,8 +25,8 @@ class ArticleController extends Controller
     {
         //get news
         $articles = Article::all();
-
         return view('gest.articles.index', compact('articles'));
+
     }
 
     /**
@@ -38,25 +48,46 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //dd(request()->all());
+        /**/
         $data = request()->validate([
             'title' => 'required',
             'description' => 'required',
-            'imag' => ['image'],
-            'datenews' => 'required',
+            'imag' => ['required', 'image'],
+            'imgAlt' => 'nullable',
+            'datenews' => ['required', 'date'],
             'urlType' => 'required',
-            'urltext' => 'required',
-            'urlLink' => 'required'
+            'urltext' => 'nullable',
+            'urlLink' => 'nullable',
         ]);
 
-        auth()->user()->articles()->create($data);
+        $imageFile = $request->file('imag');
+        $imagename = Str::uuid() . '.' . $request->file('imag')->extension();
+        $imagePath = public_path() . '/articles/img/';
+        $imageFile->move($imagePath, $imagename);
 
-        $article = new Article();
+        $article = new Article;
+
         $article->title = $data['title'];
+        $article->description = $data['description'];
+        $article->imag = '/articles/img/' . $imagename;
+        $article->datenews = $data['datenews'];
+        $article->imgAlt = $data['imgAlt'];
+        $article->urlType = $data['urlType'];
+        $article->urltext = $data['urltext'];
+        $article->urlLink = $data['urlLink'];
 
+        if ($request->file('pdf')) {
+            $pdf = $request->file('pdf');
+            $filename = Str::uuid() . '.' . $request->file('pdf')->extension();
+            $filePath = public_path() . '/articles/pdf/';
+            $pdf->move($filePath, $filename);
+            $article->urlLink = '/articles/pdf/' . $filename;
+        }
+        $article->save();
 
+        return redirect()->route('articles');
 
-       // dd(Request()->all());
     }
 
     /**
